@@ -19,6 +19,8 @@ import {
 } from './proto';
 import { TextConversation } from './text-conversation';
 
+export { JWTInput, UserRefreshClient } from 'google-auth-library';
+
 export interface AssistantQueryOptions {
   conversationState?: Buffer;
   audioInConfig?: AudioInConfig;
