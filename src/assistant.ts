@@ -212,10 +212,15 @@ export class Assistant {
     });
   }
 
-  private _createClient(credentials: JWTInput): EmbeddedAssistantInstance {
+  private _createClient(credentials: JWTInput | UserRefreshClient): EmbeddedAssistantInstance {
     const sslCreds = grpc.credentials.createSsl();
-    const refresh = new UserRefreshClient();
-    refresh.fromJSON(credentials);
+    let refresh: UserRefreshClient;
+    if (credentials instanceof UserRefreshClient) {
+      refresh = credentials;
+    } else {
+      refresh = new UserRefreshClient();
+      refresh.fromJSON(credentials);
+    }
     const callCreds = grpc.credentials.createFromGoogleCredential(refresh);
     const combinedCreds = grpc.credentials.combineChannelCredentials(
       sslCreds,
